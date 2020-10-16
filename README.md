@@ -45,6 +45,12 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+
+# migrate database
+$ npm run typeorm migration:run
+
+# generate new migration
+$ npx typeorm migration:generate -n <migration_name> -d src/database/migrations/
 ```
 
 ## Test
