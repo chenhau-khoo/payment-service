@@ -2,7 +2,7 @@ import { ForbiddenException, HttpException, HttpStatus, Injectable } from '@nest
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PaymentReq } from './dto/create-payment.req';
-import { PaymentResp } from './dto/payment-resp';
+import { PaymentResp } from './dto/create-payment.resp';
 import { PaymentStatus } from './payment-status.enum';
 import { Payment } from './payment.entity';
 
