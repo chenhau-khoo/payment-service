@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { PaymentResp } from './dto/payment-resp';
+import { PaymentResp } from './dto/create-payment.resp';
 import { PaymentStatus } from './payment-status.enum';
 import { Payment } from './payment.entity';
 import { PaymentRepository } from './payment.repository';
