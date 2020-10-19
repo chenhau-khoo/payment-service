@@ -1,7 +1,7 @@
-import { PaymentEntity } from './payment.entity';
+import { Payment } from './payment.entity';
 
-describe('PaymentEntity', () => {
+describe('Payment', () => {
   it('should be defined', () => {
-    expect(new PaymentEntity()).toBeDefined();
+    expect(new Payment()).toBeDefined();
   });
 });

@@ -14,6 +14,6 @@ module.exports = {
         "dist/**/**.entity{.ts,.js}"
     ],
     migrations: ["dist/database/migrations/*{.ts,.js}"],
-    synchronize: false,
+    synchronize: true,
     namingStrategy: new SnakeNamingStrategy()
 }

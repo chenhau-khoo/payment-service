@@ -1,30 +1,29 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { PaymentReq } from './dto/payment-req';
+import { PaymentReq } from './dto/create-payment.req';
 import { PaymentResp } from './dto/payment-resp';
 import { PaymentStatus } from './payment-status.enum';
 import { Payment } from './payment.entity';
-import { PaymentRepository } from './payment.repository';
 
 @Injectable()
 export class PaymentService {
 
-    constructor(private paymentRepository: PaymentRepository) { }
+    constructor(@InjectRepository(Payment) private paymentRepository: Repository<Payment>) { }
 
-    async processPayment(req: PaymentReq) {
+    async createPayment(req: PaymentReq) {
         const resp = new PaymentResp();
-        let payment: Payment = await this.paymentRepository.findByReferenceId(req.referenceId);
+        let payment: Payment = await this.findByReferenceId(req.referenceId);
 
         if (payment) {
-            resp.paymentId = payment.id;
-            resp.paymentStatus = payment.status;
-            return resp;
+            throw new ForbiddenException(`The referenceId ${req.referenceId} has already been processed`);
         }
+
+        const isPaymentSuccess = await this.processPayment();
 
         payment = new Payment();
         payment.referenceId = req.referenceId;
-        payment.status = isPaymentSuccess();
+        payment.status = isPaymentSuccess ? PaymentStatus.CONFIRMED : PaymentStatus.DECLINED;
 
         const savedPayment = await this.paymentRepository.save(payment);
 
@@ -32,13 +31,19 @@ export class PaymentService {
         resp.paymentId = savedPayment.id;
 
         return resp;
-
-        function isPaymentSuccess() {
-            return Math.floor(Math.random() * Math.floor(2)) == 0 ? PaymentStatus.ERROR : PaymentStatus.SUCCESS;
-        }
     }
 
+    async processPayment() {
+        return Math.floor(Math.random() * Math.floor(2)) == 0 ? false : true;
+    }
 
+    async findOne(id: string) {
+        return this.paymentRepository.findOne(id);
+    }
+
+    async findByReferenceId(referenceId: string) {
+        return this.paymentRepository.findOne({ referenceId });
+    }
 
 }
 

@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, Index } from 'typeorm'
+import { Entity, Column, PrimaryGeneratedColumn, Index, Unique } from 'typeorm'
 import { PaymentStatus } from './payment-status.enum';
 
 @Entity()
-@Index(["referenceId"])
+@Unique(["referenceId"])
 export class Payment {
 
     @PrimaryGeneratedColumn("uuid")
