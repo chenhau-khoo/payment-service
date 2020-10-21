@@ -36,7 +36,13 @@ $ npm install
 
 ## Running the app
 
+If you're running the service without using Docker, make sure MySQL database is installed and check the `.env` file for DB credentials.
+
 ```bash
+
+# Create new schema
+$ CREATE SCHEMA `payment_service` ;
+
 # development
 $ npm run start
 
@@ -53,6 +59,23 @@ $ npm run typeorm migration:run
 $ npx typeorm migration:generate -n <migration_name> -d src/database/migrations/
 ```
 
+## Running the app with Docker
+
+Make sure custom network is created before running the service with Docker.
+
+```bash
+
+# Create network
+$ docker network create -d bridge my-bridge-network
+
+# Startup service:
+$ docker-compose --env-file .env.dev up
+
+# Shutdown service:
+$ docker-compose down -v
+
+```
+
 ## Test
 
 ```bash
@@ -65,17 +88,3 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
